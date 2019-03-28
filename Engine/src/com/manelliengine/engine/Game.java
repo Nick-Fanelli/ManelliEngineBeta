@@ -1,11 +1,15 @@
 package com.manelliengine.engine;
 
+import com.manelliengine.engine.View.ViewManager;
+import com.manelliengine.engine.graphics.Renderer;
 import com.manelliengine.engine.window.Window;
 
 public class Game implements Runnable {
 
     private Thread thread;
     private Window window;
+    private Renderer renderer;
+    private ViewManager viewManager;
 
     private boolean running = false;
     private boolean render = false;
@@ -19,6 +23,9 @@ public class Game implements Runnable {
     public Game(GameManager gameManager) {
         thread = new Thread(this);
         window = new Window(this);
+        renderer = new Renderer(this);
+
+        gameManager.Init();
 
         thread.run();
     }
@@ -62,7 +69,7 @@ public class Game implements Runnable {
             }
 
             if(render) {
-                //renderer.clear();
+                renderer.clear();
                 // TODO: Update Text Here
                 window.update();
             } else {
@@ -83,5 +90,6 @@ public class Game implements Runnable {
     public String getTitle() {
         return title;
     }
+    public Window getWindow() {return window;}
 
 }

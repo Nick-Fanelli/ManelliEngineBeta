@@ -29,20 +29,7 @@ public class Window {
         canvas.setMinimumSize(s);
 
         frame = new JFrame(game.getTitle());
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
-        frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent event) {
-                frame.dispose();
-                game.cleanUp();
-            }
-
-            public void windowClosed(WindowEvent event) {
-                frame.dispose();
-                game.cleanUp();
-            }
-        });
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.setLayout(new BorderLayout());
         frame.add(canvas, BorderLayout.CENTER);
