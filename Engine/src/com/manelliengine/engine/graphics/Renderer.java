@@ -1,10 +1,11 @@
 package com.manelliengine.engine.graphics;
 
-import com.manelliengine.engine.Data.Transform;
-import com.manelliengine.engine.Game;
-
-import java.awt.*;
+import java.awt.Color;
 import java.awt.image.DataBufferInt;
+
+import com.manelliengine.engine.Game;
+import com.manelliengine.engine.gfx.Image;
+import com.manelliengine.engine.math.Transform;
 
 public class Renderer {
 
@@ -60,6 +61,14 @@ public class Renderer {
                 setPixel(transform.position.x + x, transform.position.y + y, color);
             }
         }
+    }
+    
+    public void drawImage(Image image, int offX, int offY) {
+    	for(int y = 0; y < image.getH(); y++) {
+    		for(int x = 0; x < image.getW(); x++) {
+    			setPixel(x + offX, y + offY, image.getP()[x + y * image.getW()]);
+    		}
+    	}
     }
 
 }

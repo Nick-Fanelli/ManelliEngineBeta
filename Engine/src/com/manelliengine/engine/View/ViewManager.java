@@ -1,16 +1,46 @@
 package com.manelliengine.engine.View;
 
-import com.manelliengine.engine.Game;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import com.manelliengine.engine.objects.GameObject;
 
 public class ViewManager {
 
-    private View activeView;
-
-    public View getActiveView() {
+    private static View activeView = null;
+    private static HashMap<String, GameObject> objects = new HashMap<String, GameObject>();
+    private static ArrayList<GameObject> objectsArray = new ArrayList<GameObject>();
+    
+    public static View getActiveView() {
         return activeView;
     }
-
+    
+    public static void createGameObject(GameObject object, String tag) {
+    	if(objects.containsKey(tag)) { 
+    		System.err.println("Cannot Create Object With The Same Tag As Another : " + tag);
+    		return;
+    	} else if(objects.containsValue(object)) {
+    		System.err.println("Cannot Re-Create Already Created Objcect " + object.getClass().toString());
+    		return;
+    	}
+    	objects.put(tag, object);
+    	objectsArray.add(object);
+    	object.onCreate();
+    }
+    
     public void setActiveView(View activeView) {
-        this.activeView = activeView;
+    	if(ViewManager.activeView != null) {
+    		ViewManager.activeView.onDestory();
+    	}
+        ViewManager.activeView = activeView;
+        activeView.onCreate();
+    }
+    
+    public static ArrayList<GameObject> getGameObjectsAsArrayList() {
+    	return objectsArray;
+    }
+    
+    public static HashMap<String, GameObject> getObjects() {
+    	return objects;
     }
 }
