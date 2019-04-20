@@ -1,13 +1,9 @@
 package com.manelliengine.engine.physics;
 
-import com.manelliengine.engine.View.ViewManager;
 import com.manelliengine.engine.objects.GameObject;
+import com.manelliengine.engine.view.ViewManager;
 
 public class Collision {
-	
-	public void test() {
-		System.out.println("Working");
-	}
 	
 	private boolean CWO(GameObject object1, GameObject object2) {
 		
@@ -19,8 +15,15 @@ public class Collision {
 	
 	public boolean CollisionWithObject(String object1Tag, String object2Tag) {
 		
-		GameObject gameObject1 = ViewManager.getObjects().get(object1Tag);
-		GameObject gameObject2 = ViewManager.getObjects().get(object2Tag);
+		GameObject gameObject1;
+		GameObject gameObject2;
+		
+		if(ViewManager.getObjects().get(object1Tag) == null || ViewManager.getObjects().get(object2Tag) == null) {
+			return false;
+		} else {
+			gameObject1 = ViewManager.getObjects().get(object1Tag);
+			gameObject2 = ViewManager.getObjects().get(object2Tag);
+		}
 		
 		boolean state = false; 
 		if(!state) {state = TopSide(gameObject1, gameObject2);}
@@ -103,9 +106,10 @@ public class Collision {
 		
 		float x2 = gameObject2.transform.position.x;
 		float y2 = gameObject2.transform.position.y;
+		float w2 = gameObject2.transform.scale.width;
 		float h2 = gameObject2.transform.scale.height;
 		
-		if(x1 >= x2 && x1 <= x2 + h2 && y1 + h1 >= y2 && y1 + h1 <= y2 + h2) {
+		if(x1 >= x2 && x1 <= x2 + w2 && y1 + h1 >= y2 && y1 + h1 <= y2 + h2) {
 			state = true;
 		}
 		

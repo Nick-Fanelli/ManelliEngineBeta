@@ -55,12 +55,42 @@ public class Renderer {
         }
     }
 
-    public void fillRect(Transform transform, int color) {
+    @SuppressWarnings("unused")
+	public void fillRect(Transform transform, int color) {
+    	
+    	// Don't Render Code
+		if(transform.position.x < -transform.scale.width) return;
+		if(transform.position.y < -transform.scale.height) return;
+		if(transform.position.x <= -pW      ) return;
+		if(transform.position.y <= -pH      ) return;
+		
+		int newX = 0;
+		int newY = 0;
+		int newWidth  = transform.scale.width;
+		int newHeight = transform.scale.height;
+
+		// Clipping Code
+		if(transform.position.x < 0) {newX -= transform.position.x;}
+		if(transform.position.y < 0) {newY -= transform.position.y;}
+		if(newWidth  + transform.position.x >= pW) {newWidth  -= newWidth  + transform.position.x - pW;}
+		if(newHeight + transform.position.y >= pH) {newHeight -= newHeight + transform.position.y - pH;}
+		
         for(int x = 0; x < transform.scale.width; x++) {
             for(int y = 0; y < transform.scale.height; y++) {
                 setPixel(transform.position.x + x, transform.position.y + y, color);
             }
         }
+    }
+    
+    public void drawRect(Transform transform, int color) {
+    	for(int y = 0; y <= transform.scale.height; y++) {
+    		setPixel(transform.position.x, y + transform.position.y, color);
+    		setPixel(transform.position.x + transform.scale.width, y + transform.position.y, color);
+    	}
+    	for(int x = 0; x <= transform.scale.width; x++) {
+    		setPixel(transform.position.x + x, transform.position.y, color);
+    		setPixel(transform.position.x + x, transform.scale.height + transform.position.y, color);
+    	}
     }
     
     public void drawImage(Image image, int offX, int offY) {

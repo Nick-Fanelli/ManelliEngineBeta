@@ -1,4 +1,4 @@
-package game.engine.objects;
+package engine.objects;
 
 import java.awt.Color;
 
@@ -13,22 +13,22 @@ public class Enemy extends GameObject {
 
 	@Override
 	public void onCreate() {
-		
+
 	}
 
 	@Override
 	public void Update() {
-		
+
 	}
 
 	@Override
 	public void Render() {
-		r.fillRect(transform, Color.YELLOW.getRGB());
+		r.fillRect(transform, Color.red.getRGB());
 	}
 
 	@Override
 	public void onDestory() {
-		
+
 	}
 
 }

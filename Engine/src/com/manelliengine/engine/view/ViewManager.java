@@ -1,4 +1,4 @@
-package com.manelliengine.engine.View;
+package com.manelliengine.engine.view;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +34,16 @@ public class ViewManager {
     	}
         ViewManager.activeView = activeView;
         activeView.onCreate();
+    }
+    
+    public static void destroyGameObject(String tag) {
+    	if(objects.containsValue(objects.get(tag))) {
+    		objectsArray.remove(objects.get(tag));
+    		objects.remove(tag);
+    	} else {
+    		System.err.println("Object does not already exist");
+    		return;
+    	}
     }
     
     public static ArrayList<GameObject> getGameObjectsAsArrayList() {

@@ -11,7 +11,7 @@ public abstract class GameObject {
 	public Transform transform;
 	protected static Renderer r; 
 	protected static Input input;
-	protected static PhysicsEngine PhysicsEngine = new PhysicsEngine();
+	protected static PhysicsEngine PhysicsEngine;
 	
 	public GameObject(Transform transform) {
 		this.transform = transform;
@@ -20,6 +20,7 @@ public abstract class GameObject {
 	public static void setVariables(Game game) {
 		r = game.getRenderer();
 		input = game.getInput();
+		PhysicsEngine = new PhysicsEngine(game);
 	}
 	
 	public abstract void onCreate();

@@ -1,7 +1,7 @@
 package com.manelliengine.engine;
 
-import com.manelliengine.engine.View.View;
-import com.manelliengine.engine.View.ViewManager;
+import com.manelliengine.engine.view.View;
+import com.manelliengine.engine.view.ViewManager;
 
 public abstract class GameManager {
 

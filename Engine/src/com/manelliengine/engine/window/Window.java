@@ -1,13 +1,15 @@
 package com.manelliengine.engine.window;
 
-import com.manelliengine.engine.Game;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.BorderLayout;
+import java.awt.Canvas;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+
+import javax.swing.JFrame;
+
+import com.manelliengine.engine.Game;
 
 public class Window {
 

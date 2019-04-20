@@ -1,10 +1,12 @@
 package com.manelliengine.engine;
 
-import com.manelliengine.engine.View.View;
-import com.manelliengine.engine.View.ViewManager;
+import com.manelliengine.engine.gfx.Button;
+import com.manelliengine.engine.gfx.ButtonManager;
 import com.manelliengine.engine.graphics.Renderer;
 import com.manelliengine.engine.math.Time;
 import com.manelliengine.engine.objects.GameObject;
+import com.manelliengine.engine.view.View;
+import com.manelliengine.engine.view.ViewManager;
 import com.manelliengine.engine.window.Window;
 
 public class Game implements Runnable {
@@ -13,6 +15,7 @@ public class Game implements Runnable {
     private Window window;
     private Renderer renderer;
     private Input input;
+    private ButtonManager buttonManager;
 
     private boolean running = false;
     private boolean render = false;
@@ -29,12 +32,14 @@ public class Game implements Runnable {
         window = new Window(this);
         renderer = new Renderer(this);
         input = new Input(this);
+        buttonManager = new ButtonManager();
         
         gameManager.Init();
         
         View.setRenderer(renderer);
         GameObject.setVariables(this);
-       
+        View.setVariables(this);
+        Button.setVariables(this);
         
         thread.run();
     }
@@ -73,22 +78,11 @@ public class Game implements Runnable {
             while(deltaTime >= FPS_CAP) {
                 deltaTime -= FPS_CAP;
                 render = true;
-                //TODO: Update
-                updateObjects();
-                Time.updateDt(this);
-                if(ViewManager.getActiveView() != null) {
-                	ViewManager.getActiveView().Update();
-                }
-                //Update Input Last
-                input.update();
+                update();
             }
 
             if(render) {
-                renderer.clear();
-                ViewManager.getActiveView().Render();
-                renderObjects();
-                // TODO: Update Text Here
-                window.update();
+               render();
             } else {
                 try {
                     Thread.sleep(1);
@@ -97,11 +91,44 @@ public class Game implements Runnable {
                 }
             }
         }
-        cleanUp();
     }
 
-    public static void cleanUp() {
+    private void update() {
+    	// Update Objects
+        updateObjects();
+        
+        // Update Delta Time
+        Time.updateDt(this);
+        
+        // Update View
+        if(ViewManager.getActiveView() != null) {
+        	ViewManager.getActiveView().Update();
+        }
+        
+        // Update Button Check
+        updateButtons();
+        
+        //Update Input Last (Make Sure It's Last)
+        input.update();
+    }
+    
+    private void render() {
+    	// Clear the Screen
+    	 renderer.clear();
+    	 
+    	 // Render the Active View
+	     if(ViewManager.getActiveView() != null) {
+	     	ViewManager.getActiveView().Render();
+	     }
+	     
+	     // Render The Objects
+	     renderObjects();
+	     
+	     // Render/Draw the buttons
+	     drawButtons();
 
+	     // Render/Update the window (Do Last)
+	     window.update();
     }
     
     private void updateObjects() {
@@ -113,6 +140,22 @@ public class Game implements Runnable {
     private void renderObjects() {
     	for(int i = 0; i < ViewManager.getGameObjectsAsArrayList().size(); i++) {
     		ViewManager.getGameObjectsAsArrayList().get(i).Render();
+    	}
+    }
+    
+    private void drawButtons() {
+    	if(buttonManager.getButtonsInGame() != null) {
+    		for(int i = 0; i < buttonManager.getButtonsInGame().size(); i++) {
+    			buttonManager.getButtonsInGame().get(i).draw();
+    		}
+    	}
+    }
+    
+    private void updateButtons() {
+    	if(buttonManager.getButtonsInGame() != null) {
+    		for(int i = 0; i < buttonManager.getButtonsInGame().size(); i++) {
+    			buttonManager.getButtonsInGame().get(i).update();
+    		}
     	}
     }
 
